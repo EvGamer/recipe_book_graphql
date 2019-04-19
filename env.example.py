@@ -1,0 +1,5 @@
+DB_NAME = 'recipe_book'
+DB_USER = ''
+DB_PASS = ''
+DB_HOST = '127.0.0.1'
+DB_PORT = ''
