@@ -11,16 +11,16 @@ class ItemSerializer(ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('name',)
+        fields = ('id', 'name',)
 
 
 class RecipeListSerializer(ModelSerializer):
     item_id = IntegerField(source='item.id', read_only=True)
-    name = CharField(source='item.name', read_only=True)
+    item_name = CharField(source='item.name', read_only=True)
 
     class Meta:
         model = RecipeItem
-        fields = ('id', 'item_id', 'is_result', 'name', 'qty')
+        fields = ('id', 'item_id', 'item_name', 'is_result', 'qty')
 
 
 class RecipeSerializer(ModelSerializer):
@@ -32,12 +32,15 @@ class RecipeSerializer(ModelSerializer):
 
 
 class RecipeItemSerializer(ModelSerializer):
-    item = ItemSerializer
-    recipe = RecipeSerializer
+    item_id = PrimaryKeyRelatedField(source='item', required=True, queryset=Item.objects.all())
+    item_name = CharField(source='item.name', read_only=True)
+
+    recipe_id = PrimaryKeyRelatedField(source='recipe', required=True, queryset=Recipe.objects.all())
+    recipe_name = CharField(source='recipe.name', read_only=True)
 
     class Meta:
         model = RecipeItem
-        fields = ('is_result', 'item', 'qty', 'recipe')
+        fields = ('id', 'is_result', 'recipe_id', 'recipe_name', 'item_id', 'item_name', 'qty')
 
 
 
