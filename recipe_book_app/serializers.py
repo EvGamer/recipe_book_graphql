@@ -40,7 +40,7 @@ class RecipeItemSerializer(ModelSerializer):
 
     class Meta:
         model = RecipeItem
-        fields = ('id', 'is_result', 'recipe_id', 'recipe_name', 'item_id', 'item_name', 'qty')
+        fields = ('id', 'item_id', 'item_name', 'is_result', 'qty', 'recipe_id', 'recipe_name')
 
 
 
