@@ -18,10 +18,10 @@ class RecipeViewSet(ModelViewSet):
         params = self.request.query_params
         if {'in', 'out'}.intersection(params):
             return Recipe.objects.filter(
-                items__item__name__contains=params.get('in', ''),
+                items__item__name__icontains=params.get('in', ''),
                 items__is_result=False
             ).filter(
-                items__item__name__contains=params.get('out', ''),
+                items__item__name__icontains=params.get('out', ''),
                 items__is_result=True
             )
 
@@ -36,4 +36,13 @@ class RecipeItemViewSet(ModelViewSet):
 class ItemViewSet(ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        params = self.request.query_params
+        if 'name' in params:
+            return self.queryset.filter(
+                name__icontains=params.get('name', ''),
+            )
+
+        return self.queryset
 
